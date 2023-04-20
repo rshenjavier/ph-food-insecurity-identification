@@ -1,0 +1,6 @@
+matplotlib
+pandas
+plotly
+streamlit
+pickle
+Flask
