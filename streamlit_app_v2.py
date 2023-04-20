@@ -1,4 +1,5 @@
 # General libraries
+import matplotlib.pyplot as plt
 import pandas as pd
 import plotly.express as px
 import streamlit as st
@@ -6,7 +7,6 @@ import pickle
 
 # Model deployment
 from flask import Flask
-import streamlit as st
 
 def load_data():
     # Load the data
