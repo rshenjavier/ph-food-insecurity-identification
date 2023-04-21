@@ -7,6 +7,7 @@ import pickle
 
 # Model deployment
 from flask import Flask
+import shap
 
 def load_data():
     # Load the data
@@ -42,8 +43,8 @@ def introduction():
     st.markdown('''Ultimately, this study poses its value in touching not one but many of the Sustainable Development Goals of the United Nations such as
     SDG 1: No Poverty, SDG2: Zero Hunger, SDG 3: Good Health and Well-Being, and SDG 10: Reduced Inequalities.''')
 
-    st.markdown('''The objectives of this sprint are
-    a) Identify which features drive food insecurity and 
+    st.markdown('''The objectives of this sprint are:
+    a) Identify which features drive food insecurity and
     b) Recommend targeted actionable plans.''')
     
 
@@ -135,11 +136,21 @@ def final_model():
         options = holdout_indices)
 
     def predict_if_fi(index):    
+        
+        # Creating a dataframe of the respondent's answers
         respondent = X_holdout.loc[[index]]
         st.dataframe(respondent)
+
+        # Creating a force plot - commented out because shap values take a while to load
+        #explainer = shap.KernelExplainer(model.predict, X_holdout, feature_names=X_holdout.columns)
+        #shap_values = explainer.shap_values(X_holdout)
+        #shap.force_plot(explainer.expected_value, shap_values[index], sample1.iloc[index,1:], X_holdout.columns, matplotlib=True, figsize=(50,7.5))
+
+        # Predicting food insecurity
         prediction_num = model.predict(respondent)[0]
         pred_map = {1: 'Food Insecure', 0: 'Food Secure'}
         prediction = pred_map[prediction_num]
+        
         return prediction
 
     if st.button("Predict"):
@@ -148,30 +159,7 @@ def final_model():
             st.error('This respondent may be Food Insecure', icon="🚨")
         elif output == 'Food Secure':
             st.success('This respondent is Food Secure', icon="✅")
-
-
-def predict_if_fi(id):    
-    observation = X_holdout.loc[id].values.reshape(1, -1)
-    prediction_num = model.predict(observation)[0]
-    pred_map = {1: 'Food Insecure', 0: 'Food Secure'}
-    prediction = pred_map[prediction_num]
-    return prediction
-
-# Create a boolean state variable to control the visibility of the button
-show_button = False
-
-# Use st.checkbox() to create a checkbox to toggle the visibility of the button
-show_button = st.checkbox("Go to Predicting Food Insecurity for the Prediction Button")
-
-# Use an if statement to display the button based on the state of the checkbox
-if show_button:
-    if st.button("Predict", key="predict button"):
-        output = predict_if_fi(choice)
-    if output == 'Food Insecure':
-        st.error('This person is Food Insecure', icon="🚨")
-    elif output == 'Food Secure':
-        st.success('This person is Food Secure!', icon="✅")
-
+    
 # TO ADD - force_plot, inputting own numbers
     
 
