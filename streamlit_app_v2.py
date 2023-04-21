@@ -42,9 +42,9 @@ def introduction():
     st.markdown('''Ultimately, this study poses its value in touching not one but many of the Sustainable Development Goals of the United Nations such as
     SDG 1: No Poverty, SDG2: Zero Hunger, SDG 3: Good Health and Well-Being, and SDG 10: Reduced Inequalities.''')
 
-    st.markdown('''The objectives of this sprint are:
-    1. Identify which features drive food insecurity 
-    2. Recommend targeted actionable plans''')
+    st.markdown('''The objectives of this sprint are
+    a) Identify which features drive food insecurity and 
+    b) Recommend targeted actionable plans.''')
     
 
 
